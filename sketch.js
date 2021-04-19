@@ -175,7 +175,7 @@ function AiTURN() {
       checkForWinner();
       TURN = "human";
     }
-  }, int(random(100, 500)));
+  }, int(random(700, 1200)));
 }
 
 function checkForWinner(board = BOARD, usingAlgo = false) {
@@ -248,9 +248,9 @@ function shoWinner() {
       TheWinner === O
         ? ai_won_wordbank[int(random(ai_won_wordbank.length))]
         : human_won_wordbank[int(random(human_won_wordbank.length))];
-    winner_label.html(`${winner_}`);
-    turn_label.html("");
-    ai_speech_label.html("");
+    winner_label.html(winner_);
+    turn_label.hide();
+    ai_speech_label.hide("");
     playagain_label.html("play again?");
     playagain_label.mouseClicked(() => {
       restartGame();
@@ -260,8 +260,8 @@ function shoWinner() {
     playagain_label.mouseClicked(() => {
       restartGame();
     });
-    turn_label.html("");
-    ai_speech_label.html("");
+    turn_label.hide();
+    ai_speech_label.hide("");
     winner_label.html(tie_wordbank[int(random(tie_wordbank.length))]);
     playagain_label.html("play again?");
     noLoop();
@@ -269,8 +269,28 @@ function shoWinner() {
 }
 
 function restartGame() {
+  if (random() > 0.5) {
+    TURN = "human";
+  } else {
+    TURN = "ai";
+    setTimeout(() => {
+      let possible = [
+        [0, 0],
+        [0, 2],
+        [1, 1],
+        [2, 0],
+        [2, 2],
+      ];
+      possible = possible[int(random(0, 5))];
+      BOARD[possible[0]][possible[1]] = ai_XO;
+      TURN = "human";
+    }, int(random(1000, 1200)));
+  }
+
   turn_label.html("");
   ai_speech_label.html("");
+  turn_label.show();
+  ai_speech_label.show("");
   winner_label.html("");
   playagain_label.html("");
   TheWinner = null;
